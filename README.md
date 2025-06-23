@@ -1,4 +1,4 @@
-# MapAGI Eval - Automapper
+# AutoMapper - MapAGI Eval
 
 This project serves as a benchmark for evaluating the performance of large language models (LLMs) in mapping tasks. It is designed to test the ability of LLMs to generate structured mappings and automate workflows efficiently.
 
