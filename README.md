@@ -1,6 +1,6 @@
 # AutoMapper - MapAGI Eval
 
-Creating OSM-compatible mappings directly from 360-degree images would be a groundbreaking step in simplifying geospatial data generation and enhancing mapping accuracy. This project serves as a benchmark for evaluating the performance of large language models (LLMs) in mapping tasks. It is designed to test the ability of LLMs to generate structured mappings and automate workflows efficiently.
+Creating OSM-compatible mappings directly from multiple sequences of street-level imagery, particularly 360-degree images, would be a groundbreaking step in simplifying geospatial data generation and enhancing mapping accuracy. This project serves as a benchmark for evaluating the performance of large language models (LLMs) in mapping tasks, specifically designed to test their ability to generate structured mappings and automate workflows efficiently using this kind of visual input.
 
 ## Contents
 
