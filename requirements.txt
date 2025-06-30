@@ -4,3 +4,5 @@ folium
 matplotlib
 mapclassify
 tabulate
+shapely
+ipykernel
