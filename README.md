@@ -31,8 +31,11 @@ Further details can be accesed at https://docs.google.com/document/d/1kyimv5nURA
 
 ## Setup Instructions
 
-Install the required dependencies found in requirements.txt.
-
+  ```python
+conda create -n "automapper"
+conda activate automapper
+pip install -r requirements.txt
+  ```
 ## Contributions
 
 Feel free to contribute by improving the benchmarks.
