@@ -1,0 +1,64 @@
+osmid,maxspeed:forward,maxspeed:backward,maxspeed,lanes,lanes:forward,lanes:backward,turn:lanes,turn:lanes:forward,turn:lanes:backward,name,oneway
+421824309,25 mph,25 mph,,,1.0,1.0,,left|through,through,None,
+1329876948,,,,,1.0,1.0,,through|right,None,None,
+1135342273,,,,,1.0,1.0,,through,through,None,
+196117014,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+1329888403,,,,,1.0,1.0,,through,through,None,
+414751458,,,,,1.0,1.0,,through,through,David,
+1317756113,,,25 mph,2.0,,,through|right,,,None,yes
+1238431029,,,25 mph,1.0,,,through,,,Catherine St,yes
+1238431028,,,25 mph,1.0,,,through,,,None,yes
+655255187,,,25 mph,1.0,,,through,,,Forsyth St,yes
+222299242,,,,3.0,,,left|through|right,,,None,yes
+1329583056,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+196116989,,,25 mph,2.0,,,through|through:right,,,Henry St,yes
+1333670673,,,25 mph,1.0,,,through,,,Henry Street,yes
+1333670675,,,25 mph,2.0,,,None,,,Henry Street,yes
+1333670674,25 mph,25 mph,,,1.0,1.0,,through|right,through,Henry Street,
+1329844597,,,25 mph,1.0,,,through,,,Madison Street,yes
+1335381157,,,15 mph,1.0,,,through,,,None,yes
+1333699601,,,25 mph,1.0,,,through,,,None,yes
+1329887723,,,,,1.0,1.0,,left:through,through,None,
+1333695989,,,,,2.0,1.0,,left|through,through,Manhattan Bridge,
+1332815845,,,,,1.0,1.0,,through,through,None,
+1332815846,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+1332819054,,,,1.0,,,through,,,None,yes
+1333226030,,,15 mph,2.0,,,left|through,,,None,yes
+1332821283,,,25 mph,1.0,,,through,,,None,yes
+1332821284,,,,1.0,,,through,,,None,yes
+1333668208,,,25 mph,1.0,,,through,,,None,yes
+1333419993,25 mph,25 mph,,,1.0,1.0,,left,through,None,
+1332821285,,,25 mph,1.0,,,through|right,,,None,yes
+1332821287,,,,1.0,,,through,,,None,yes
+1329843417,,,25 mph,1.0,,,through,,,None,yes
+1332821288,,,25 mph,1.0,,,left:through,,,None,yes
+1332821289,,,25 mph,1.0,,,through,,,None,yes
+5670058,25 mph,25 mph,,,2.0,2.0,,left|through,through|right,None,
+1252123719,,,25 mph,2.0,,,through|through:right,,,None,yes
+414894542,,,25 mph,2.0,,,through|through,,,None,yes
+420890077,,,,,1.0,1.0,,left,None,None,
+5670832,,,25 mph,1.0,,,through,,,James Street,yes
+5671584,,,25 mph,1.0,,,through,,,None,yes
+5672911,,,,2.0,,,through|through,,,None,yes
+5672971,,,25 mph,2.0,,,through|right,,,None,yes
+5673424,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+46334663,25 mph,25 mph,,,1.0,1.0,,,,None,
+195745925,,,,,2.0,2.0,,through|through,through|through,None,
+1328104335,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+1341258157,,,25 mph,2.0,,,through|through,,,Mulberry Street,yes
+584971525,,,25 mph,2.0,,,through|through,,,Madison Street,yes
+662161062,,,25 mph,1.0,,,through,,,Madison St,yes
+711363473,,,25 mph,1.0,,,through,,,None,yes
+834248946,,,,2.0,,,through,,,None,yes
+1238431052,25 mph,25 mph,,,1.0,1.0,,through,through,Madison Street,
+1238431053,,,25 mph,1.0,,,through,,,None,yes
+1252123718,,,25 mph,2.0,,,through|through:right,,,None,yes
+1333438295,25 mph,25 mph,,,1.0,1.0,,through,through,Madison Street,
+1333438296,,,,,2.0,2.0,,through|through,through|through,E 14th Street,
+1333438297,25 mph,25 mph,,,1.0,1.0,,through,through,None,
+42786502,,,,,1.0,1.0,,None,None,Market,
+1332816547,,,,,1.0,1.0,,through,through,None,
+5671717,,,,,2.0,2.0,,through|through,through|through,None,
+5670189,,,,2.0,,,through|right,,,None,yes
+1329369154,,,25 mph,1.0,,,through,,,None,yes
+438901945,30 mph,30 mph,,,2.0,2.0,,through|through,through|through,None,
