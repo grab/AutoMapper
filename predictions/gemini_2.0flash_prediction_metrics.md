@@ -1,0 +1,15 @@
+| osm_tag             | precision   | recall   | f1     |
+|:--------------------|:------------|:---------|:-------|
+| lanes               | 1.0         | 0.0484   | 0.0923 |
+| lanes:backward      | 0.1754      | 0.8333   | 0.2899 |
+| lanes:forward       | 0.1455      | 0.6667   | 0.2388 |
+| maxspeed            | 0.0         | 0.0      | 0.0    |
+| maxspeed:backward   | nan         | nan      | nan    |
+| maxspeed:forward    | 0.0         | 0.0      | 0.0    |
+| name                | 1.0         | 0.0469   | 0.0896 |
+| oneway              | 0.8         | 0.0816   | 0.1481 |
+| turn:lanes          | 0.25        | 0.2      | 0.2222 |
+| turn:lanes:backward | 0.0         | 0.0      | 0.0    |
+| turn:lanes:forward  | 0.0         | 0.0      | 0.0    |
+| -                   | -           | -        | -      |
+| average_scores      | 0.3371      | 0.1877   | 0.1081 |
