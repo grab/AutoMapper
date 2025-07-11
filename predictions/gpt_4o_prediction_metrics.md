@@ -1,15 +1,15 @@
-| osm_tag             | precision   | recall   | f1     |
-|:--------------------|:------------|:---------|:-------|
-| lanes               | 1.0         | 0.0323   | 0.0625 |
-| lanes:backward      | 0.2037      | 0.9167   | 0.3333 |
-| lanes:forward       | 0.1321      | 0.5833   | 0.2154 |
-| maxspeed            | 0.0         | 0.0      | 0.0    |
-| maxspeed:backward   | nan         | nan      | nan    |
-| maxspeed:forward    | 0.0         | 0.0      | 0.0    |
-| name                | 1.0         | 0.0308   | 0.0597 |
-| oneway              | 1.0         | 0.08     | 0.1481 |
-| turn:lanes          | 0.0         | 0.0      | 0.0    |
-| turn:lanes:backward | 0.0         | 0.0      | 0.0    |
-| turn:lanes:forward  | 0.0         | 0.0      | 0.0    |
-| -                   | -           | -        | -      |
-| average_scores      | 0.3336      | 0.1643   | 0.0819 |
+| osm_tag             | occurrences   | precision   | recall   | f1     |
+|:--------------------|:--------------|:------------|:---------|:-------|
+| lanes               | 32            | 0.5         | 0.0625   | 0.1111 |
+| lanes:backward      | 33            | 0.5         | 0.7576   | 0.6024 |
+| lanes:forward       | 33            | 0.4286      | 0.6364   | 0.5122 |
+| maxspeed            | 2             | 0.0         | 0.0      | 0.0    |
+| maxspeed:backward   | 0             | nan         | nan      | nan    |
+| maxspeed:forward    | 2             | 0.0909      | 0.5      | 0.1538 |
+| name                | 65            | 1.0         | 0.0308   | 0.0597 |
+| oneway              | 32            | 0.6667      | 0.125    | 0.2105 |
+| turn:lanes          | 5             | 0.0         | 0.0      | 0.0    |
+| turn:lanes:backward | 1             | 0.0         | 0.0      | 0.0    |
+| turn:lanes:forward  | 4             | 0.0         | 0.0      | 0.0    |
+| -                   | -             | -           | -        | -      |
+| weighted_average    | 209           | 0.6371      | 0.2632   | 0.2453 |
