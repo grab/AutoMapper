@@ -44,8 +44,9 @@ def get_pred_status(gt_value, pred_value, map_feature):
         return 'fn'
 
 
-def update_metrics(final_metrics, osm_tag, precision, recall, f1):
+def update_metrics(final_metrics, osm_tag, occurrences, precision, recall, f1):
     final_metrics['osm_tag'].append(osm_tag)
+    final_metrics['occurrences'].append(occurrences)
     final_metrics['precision'].append(precision)
     final_metrics['recall'].append(recall)
     final_metrics['f1'].append(f1)
@@ -55,21 +56,31 @@ def update_metrics(final_metrics, osm_tag, precision, recall, f1):
 def eval_map_feature_pred(pred_df_path, uid=None):
     pred_df = pd.read_csv(pred_df_path)
     gt_df = pd.read_csv('../metadata/ground_truth.csv')
-    final_metrics = {'osm_tag': [], 'precision': [], 'recall': [], 'f1': []}
+    final_metrics = {'osm_tag': [], 'occurrences': [], 'precision': [], 'recall': [], 'f1': []}
 
     osm_tags = sorted(list(pred_df.columns))
     osm_tags = [tag for tag in osm_tags if tag != 'osmid']
+    
+    # Lists to store metrics for weighted average calculation
+    precisions = []
+    recalls = []
+    f1s = []
+    occurrence_counts = []
+    
     for osm_tag in osm_tags:
 
         assert osm_tag in OSM_TAGS.keys(), f"Invalid map feature: {osm_tag}"
         if osm_tag not in gt_df.columns:
             print(f"OSM tag '{osm_tag}' not found in predictions dataframe.")
-            final_metrics = update_metrics(final_metrics, osm_tag, None, None, None)
+            final_metrics = update_metrics(final_metrics, osm_tag, 0, None, None, None)
             continue
 
         map_feature_gt_df = gt_df[['osmid', osm_tag]]
         map_feature_pred_df = pred_df[['osmid', osm_tag]]
         map_feature_gt_df = map_feature_gt_df.merge(map_feature_pred_df, on='osmid', suffixes=('_gt', '_pred'))
+
+        # Count occurrences (non-null values in ground truth)
+        occurrences = map_feature_gt_df[osm_tag + '_gt'].notna().sum()
 
         map_feature_gt_df['pred_status'] = map_feature_gt_df.apply(lambda x: get_pred_status(
             x[osm_tag + '_gt'], x[osm_tag + '_pred'], osm_tag), axis=1)
@@ -83,17 +94,34 @@ def eval_map_feature_pred(pred_df_path, uid=None):
         recall = len(tp_samples) / (len(tp_samples) + len(fn_samples)) if (len(tp_samples) + len(fn_samples)) > 0 else 0
         f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
         
-        final_metrics = update_metrics(final_metrics, osm_tag, round(precision, 4), round(recall, 4), round(f1, 4))
-
+        final_metrics = update_metrics(final_metrics, osm_tag, occurrences, round(precision, 4), round(recall, 4), round(f1, 4))
+        
+        # Store for weighted average calculation (only if we have valid metrics)
+        if precision is not None and recall is not None and f1 is not None:
+            precisions.append(precision)
+            recalls.append(recall)
+            f1s.append(f1)
+            occurrence_counts.append(occurrences)
 
     final_metrics_df = pd.DataFrame(final_metrics)
-    mean_precision = final_metrics_df['precision'].mean()
-    mean_recall = final_metrics_df['recall'].mean()
-    mean_f1 = final_metrics_df['f1'].mean()
     
+    # Calculate weighted averages
+    if occurrence_counts:  # Check if we have any valid data
+        total_occurrences = sum(occurrence_counts)
+        if total_occurrences > 0:
+            weighted_precision = sum(p * w for p, w in zip(precisions, occurrence_counts)) / total_occurrences
+            weighted_recall = sum(r * w for r, w in zip(recalls, occurrence_counts)) / total_occurrences
+            weighted_f1 = sum(f * w for f, w in zip(f1s, occurrence_counts)) / total_occurrences
+        else:
+            weighted_precision = weighted_recall = weighted_f1 = 0
+    else:
+        weighted_precision = weighted_recall = weighted_f1 = 0
+    
+    # Add separator row and weighted averages
     final_metrics_df.loc[-1] = ['-' for _ in range(len(final_metrics_df.columns))]
     final_metrics_df.index = final_metrics_df.index + 1  # Shift index to make space for the new row
-    final_metrics_df.loc[-1] = ['average_scores', round(mean_precision, 4), round(mean_recall, 4), round(mean_f1, 4)]
+    final_metrics_df.loc[-1] = ['weighted_average', sum(occurrence_counts) if occurrence_counts else 0, 
+                               round(weighted_precision, 4), round(weighted_recall, 4), round(weighted_f1, 4)]
 
     pred_dir = '../predictions'
     os.makedirs(pred_dir, exist_ok=True)
@@ -104,7 +132,7 @@ def eval_map_feature_pred(pred_df_path, uid=None):
     pred_md = os.path.join(pred_dir, f'{uid}_prediction_metrics.md')
 
     final_metrics_df.to_markdown(pred_md, index=False)
-    pd.DataFrame(final_metrics).to_csv(pred_csv, index=False)
+    final_metrics_df.to_csv(pred_csv, index=False)
 
     print(f"Evaluation completed. Metrics saved to {pred_dir}/{uid}_prediction_metrics")
 
@@ -116,3 +144,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     eval_map_feature_pred(args.pred_df_path, args.uid)
+    
