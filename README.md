@@ -22,8 +22,8 @@ Creating OSM-compatible mappings directly from multiple sequences of street-leve
 ## General Workflow
 
 1. Download photos.zip from https://drive.google.com/drive/folders/1MQsGlCBf5DRVa3P5piiopbtagYVr-W8A and extract the contents into the /photos directory.
-2. Load image-level metadata by combining the photos directory with the photos.pkl file.
-3. Iterate through ways using the ways.pkl file.
+2. Load image-level metadata by combining the photos directory with the photos.csv file.
+3. Iterate through ways using the ways.csv file.
 4. Generate predictions at way level.
 5. Assess the accuracy of your predictions.
 
