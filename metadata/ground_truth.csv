@@ -1,66 +1,66 @@
-osmid,oneway,name,lanes:forward,turn:lanes:forward,lanes:backward,turn:lanes,maxspeed:forward,maxspeed,turn:lanes:backward,lanes
-421824309,no,East Broadway,2,left|,1,,,20 mph,,3
-1329876948,no,East Broadway,1,through;right,1,,,20 mph,,2
-1135342273,no,Worth Street,1,,2,,,20 mph,left|through,3
-196117014,no,East Broadway,1,,1,,,20 mph,,2
-1329888403,,Saint James Place,2,through|right,2,,,20 mph,,4
-414751458,,Oliver Street,2,left|right,1,,,20 mph,,3
-1317756113,yes,Division Street,,,,through|right,,20 mph,,2
-1238431029,,Henry Street,1,,1,,,20 mph,,2
-1238431028,,Henry Street,1,,1,,,20 mph,,2
-655255187,,Henry Street,1,,1,,,20 mph,,2
-612743237,yes,Division Street,,,,through|right,,20 mph,,2
-222299242,yes,Chatham Square,,,,left|through|through;right,,20 mph,,3
-1329583056,no,Worth Street,,,,,,20 mph,left|through,4
-196116989,yes,Chatham Square,,,,through|through|right,,20 mph,,3
-1333670673,,Henry Street,1,,1,,,20 mph,,2
-165775306,yes,Chatham Square,,,,left|through|through,,20 mph,,3
-1333670675,,Henry Street,1,,1,,,20 mph,,2
-1333670674,,Henry Street,1,,1,,,20 mph,,2
-1329844597,no,Madison Street,,,,,,20 mph,,2
-1335381157,yes,Division Street,,,,,,20 mph,,2
-1333699601,yes,Market Street,,,,,,20 mph,,1
-1329887723,no,Worth Street,,,,,,20 mph,,4
-1333695989,yes,Market Street,,,,,,20 mph,,1
-1332815845,yes,Monroe Street,,,,,,20 mph,,1
-1332815846,yes,Monroe Street,,,,,,20 mph,,1
-1332819054,yes,Market Street,,,,,,20 mph,,1
-1333226030,no,Madison Street,,,,,,20 mph,,2
-1332821283,yes,Market Street,,,,,,20 mph,,1
-1332821284,yes,Market Street,,,,,,20 mph,,1
-1333668208,yes,Monroe Street,,,,,,20 mph,,1
-1333419993,no,East Broadway,,,,,,20 mph,,2
-1332821285,yes,Market Street,,,,,,20 mph,,1
-1332821287,yes,Market Street,,,,,,20 mph,,1
-1329843417,no,Madison Street,,,,,,20 mph,,2
-1332821288,yes,Market Street,,,,,,20 mph,,1
-1332821289,yes,Market Street,,,,,,20 mph,,1
-5670058,yes,Oliver Street,,,,,,20 mph,,1
-1252123719,no,East Broadway,,,,,,20 mph,,2
-414894542,yes,Division Street,,,,,,20 mph,,2
-420890077,no,Pearl Street,,,,,,20 mph,,4
-5670832,yes,James Street,,,,,,20 mph,,1
-5671584,yes,Monroe Street,,,,,,20 mph,,1
-5672911,yes,Market Street,,,,,,20 mph,,1
-5672971,yes,Chatham Square,,,,,,20 mph,,2
-5673424,no,East Broadway,,,,,,20 mph,,2
-46334663,yes,Forsyth Street,,,,,,20 mph,,1
-195745925,yes,Bowery,,,,,,20 mph,,2
-1328104335,yes,Monroe Street,,,,,,20 mph,,1
-1341258157,yes,Division Street,,,,,,20 mph,,2
-584971525,no,Madison Street,,,,,,20 mph,,2
-662161062,yes,Market Street,,,,,,20 mph,,2
-711363473,yes,Monroe Street,,,,,,20 mph,,1
-834248946,yes,Monroe Street,,,,,,20 mph,,1
-1238431052,no,Madison Street,,,,,,20 mph,,2
-1238431053,no,Madison Street,,,,,,20 mph,,2
-1252123718,no,East Broadway,,,,,,20 mph,,2
-1333438295,,Saint James Place,,,,,,20 mph,,2
-1333438296,,Saint James Place,,,,,,20 mph,,2
-1333438297,,Saint James Place,,,,,,20 mph,,2
-42786502,,Saint James Place,,,,,,20 mph,,2
-1332816547,,Saint James Place,,,,,,20 mph,,4
-5671717,,Saint James Place,,,,,,20 mph,,4
-5670189,no,East Broadway,,,,,,20 mph,,
-1329369154,yes,Mott Street,,,,,,20 mph,,
-438901945,,Oliver Street,,,,,,20 mph,,
+osmid,oneway,name,lanes,lanes:forward,lanes:backward,turn:lanes,turn:lanes:forward,turn:lanes:backward,maxspeed,maxspeed:forward
+5670058,yes,Oliver Street,1,,,,,,,
+5670189,,East Broadway,,2,2,,,,,
+5670832,yes,James Street,1,,,,,,,
+5671584,yes,Monroe Street,1,,,,,,,
+5671717,,Saint James Place,,2,2,,,,,
+5672911,yes,Market Street,2,,,,,,,
+5672971,yes,Chatham Square,2,,,,,,25 mph,
+5673424,,East Broadway,,1,1,,,,,
+42786502,,Saint James Place,,1,1,,,,,
+46334663,yes,Forsyth Street,1,,,,,,,
+165775306,yes,Chatham Square,3,,,left|through|through,,,,
+195745925,yes,Bowery,2,,,,,,,
+196116989,yes,Chatham Square,3,,,through|through|right,,,,
+196117014,,East Broadway,,1,1,,,,,
+222299242,yes,Chatham Square,3,,,left|through|through:right,,,,
+414751458,,Oliver Street,,2,1,,through|,,,
+414894542,yes,Division Street,2,,,,,,25 mph,
+420890077,,Pearl Street,,2,2,,,,,
+421824309,,East Broadway,,2,1,,left|,,,
+438901945,,Oliver Street,,2,2,,,,,
+584971525,,Madison Street,,1,1,,,,,25 mph
+612743237,yes,Division Street,2,,,through|right,,,,
+655255187,,Henry Street,,1,1,,,,,
+662161062,yes,Market Street,2,,,,,,,
+711363473,yes,Monroe Street,1,,,,,,,
+834248946,yes,Monroe Street,1,,,,,,,
+1135342273,,Worth Street,,2,2,,,left|through,,
+1238431028,,Henry Street,,1,1,,,,,
+1238431029,,Henry Street,,1,1,,,,,
+1238431052,,Madison Street,,1,1,,,,,
+1238431053,,Madison Street,,1,1,,,,,
+1252123718,,East Broadway,,2,2,,,,,
+1252123719,,East Broadway,,2,2,,,,,25 mph
+1317756113,yes,Division Street,2,,,through|right,,,,
+1328104335,yes,Monroe Street,1,,,,,,,
+1329369154,yes,Mott Street,1,,,,,,,
+1329583056,,Worth Street,,2,2,,,,,
+1329843417,,Madison Street,,1,1,,,,,
+1329844597,,Madison Street,,1,1,,,,,
+1329876948,,East Broadway,,1,1,,through:right,,,
+1329887723,,Worth Street,,2,2,,,,,
+1329888403,,Saint James Place,,2,2,,through:right,,,
+1332815845,yes,Monroe Street,1,,,,,,,
+1332815846,yes,Monroe Street,1,,,,,,,
+1332816547,,Saint James Place,,2,2,,,,,
+1332819054,yes,Market Street,1,,,,,,,
+1332821283,yes,Market Street,1,,,,,,,
+1332821284,yes,Market Street,1,,,,,,,
+1332821285,yes,Market Street,1,,,,,,,
+1332821287,yes,Market Street,1,,,,,,,
+1332821288,yes,Market Street,1,,,,,,,
+1332821289,yes,Market Street,1,,,,,,,
+1333226030,,Madison Street,,1,1,,,,,
+1333419993,,East Broadway,,1,2,,,,,
+1333438295,,Saint James Place,,1,1,,,,,
+1333438296,,Saint James Place,,1,1,,,,,
+1333438297,,Saint James Place,,1,1,,,,,
+1333668208,yes,Monroe Street,1,,,,,,,
+1333670673,,Henry Street,,1,1,,,,,
+1333670674,,Henry Street,,1,1,,,,,
+1333670675,,Henry Street,,1,1,,,,,
+1333695989,yes,Market Street,1,,,,,,,
+1333699601,yes,Market Street,1,,,,,,,
+1335381157,yes,Division Street,2,,,,,,,
+1341258157,yes,Division Street,2,,,,,,,
