@@ -123,18 +123,18 @@ def eval_map_feature_pred(pred_df_path, uid=None):
     final_metrics_df.loc[-1] = ['weighted_average', sum(occurrence_counts) if occurrence_counts else 0, 
                                round(weighted_precision, 4), round(weighted_recall, 4), round(weighted_f1, 4)]
 
-    pred_dir = '../predictions'
+    pred_dir = '../evaluation_results'
     os.makedirs(pred_dir, exist_ok=True)
     if uid is None:
         uid = datetime.now().strftime('%Y%m%d%H%M%S')
     
-    pred_csv = os.path.join(pred_dir, f'{uid}_prediction_metrics.csv')
-    pred_md = os.path.join(pred_dir, f'{uid}_prediction_metrics.md')
+    pred_csv = os.path.join(pred_dir, f'metrics_{uid}.csv')
+    pred_md = os.path.join(pred_dir, f'metrics_{uid}.md')
 
     final_metrics_df.to_markdown(pred_md, index=False)
     final_metrics_df.to_csv(pred_csv, index=False)
 
-    print(f"Evaluation completed. Metrics saved to {pred_dir}/{uid}_prediction_metrics")
+    print(f"Evaluation completed. Metrics saved to {pred_dir}/metrics_{uid}")
 
 
 if __name__ == "__main__":
