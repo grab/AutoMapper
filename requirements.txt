@@ -5,7 +5,7 @@ ipykernel
 mapclassify
 matplotlib
 numpy
-opencv-python
+opencv-python-headless
 openai
 pandas
 pillow
