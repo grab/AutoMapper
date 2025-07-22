@@ -61,11 +61,10 @@ def eval_map_feature_pred(pred_df_path, uid=None):
     osm_tags = sorted(list(pred_df.columns))
     osm_tags = [tag for tag in osm_tags if tag != 'osmid']
     
-    # Lists to store metrics for weighted average calculation
-    precisions = []
-    recalls = []
-    f1s = []
-    occurrence_counts = []
+    # Variables to store overall metrics
+    total_tp = 0
+    total_fp = 0
+    total_fn = 0
     
     for osm_tag in osm_tags:
 
@@ -90,38 +89,29 @@ def eval_map_feature_pred(pred_df_path, uid=None):
         fp_samples = map_feature_gt_df[map_feature_gt_df['pred_status'] == 'fp']
         fn_samples = map_feature_gt_df[map_feature_gt_df['pred_status'] == 'fn']
 
+        # Update total counts for overall metrics
+        total_tp += len(tp_samples)
+        total_fp += len(fp_samples)
+        total_fn += len(fn_samples)
+
         precision = len(tp_samples) / (len(tp_samples) + len(fp_samples)) if (len(tp_samples) + len(fp_samples)) > 0 else 0
         recall = len(tp_samples) / (len(tp_samples) + len(fn_samples)) if (len(tp_samples) + len(fn_samples)) > 0 else 0
         f1 = (2 * precision * recall) / (precision + recall) if (precision + recall) > 0 else 0
         
         final_metrics = update_metrics(final_metrics, osm_tag, occurrences, round(precision, 4), round(recall, 4), round(f1, 4))
-        
-        # Store for weighted average calculation (only if we have valid metrics)
-        if precision is not None and recall is not None and f1 is not None:
-            precisions.append(precision)
-            recalls.append(recall)
-            f1s.append(f1)
-            occurrence_counts.append(occurrences)
 
     final_metrics_df = pd.DataFrame(final_metrics)
     
-    # Calculate weighted averages
-    if occurrence_counts:  # Check if we have any valid data
-        total_occurrences = sum(occurrence_counts)
-        if total_occurrences > 0:
-            weighted_precision = sum(p * w for p, w in zip(precisions, occurrence_counts)) / total_occurrences
-            weighted_recall = sum(r * w for r, w in zip(recalls, occurrence_counts)) / total_occurrences
-            weighted_f1 = sum(f * w for f, w in zip(f1s, occurrence_counts)) / total_occurrences
-        else:
-            weighted_precision = weighted_recall = weighted_f1 = 0
-    else:
-        weighted_precision = weighted_recall = weighted_f1 = 0
+    # Compute overall precision, recall, and F1
+    overall_precision = total_tp / (total_tp + total_fp) if (total_tp + total_fp) > 0 else 0
+    overall_recall = total_tp / (total_tp + total_fn) if (total_tp + total_fn) > 0 else 0
+    overall_f1 = (2 * overall_precision * overall_recall) / (overall_precision + overall_recall) if (overall_precision + overall_recall) > 0 else 0
     
-    # Add separator row and weighted averages
+    # Add separator row and overall metrics
     final_metrics_df.loc[-1] = ['-' for _ in range(len(final_metrics_df.columns))]
     final_metrics_df.index = final_metrics_df.index + 1  # Shift index to make space for the new row
-    final_metrics_df.loc[-1] = ['weighted_average', sum(occurrence_counts) if occurrence_counts else 0, 
-                               round(weighted_precision, 4), round(weighted_recall, 4), round(weighted_f1, 4)]
+    final_metrics_df.loc[-1] = ['overall', '-', 
+                               round(overall_precision, 4), round(overall_recall, 4), round(overall_f1, 4)]
 
     pred_dir = '../evaluation_results'
     os.makedirs(pred_dir, exist_ok=True)

@@ -12,4 +12,4 @@
 | turn:lanes:backward | 1             | 0.0         | 0.0      | 0.0    |
 | turn:lanes:forward  | 4             | 0.0         | 0.0      | 0.0    |
 | -                   | -             | -           | -        | -      |
-| weighted_average    | 209           | 0.6371      | 0.2632   | 0.2453 |
+| overall             | -             | 0.3571      | 0.2632   | 0.303  |
