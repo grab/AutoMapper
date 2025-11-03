@@ -48,4 +48,4 @@ pip install -r requirements.txt
 Feel free to contribute by improving the benchmarks.
 
 # Updates
-- We updated the repository with more data. `extra_photos.zip` from [here](https://grabautomapper.z23.web.core.windows.net/?prefix=automapper/)
+- We updated the repository with more data. Download `extra_photos.zip` from [here](https://grabautomapper.z23.web.core.windows.net/?prefix=automapper/)
