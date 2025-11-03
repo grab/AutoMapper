@@ -34,7 +34,7 @@ Tools for evaluating predictions and generating metrics:
 This directory contains metrics and reports generated after running the evaluation scripts.
 
 # Project Setup
-- Download `photos.zip` from [Google Drive](https://drive.google.com/drive/folders/1MQsGlCBf5DRVa3P5piiopbtagYVr-W8A) and extract its contents to ./photos.
+- Download `photos.zip` from [here](https://grabautomapper.z23.web.core.windows.net/?prefix=automapper/) and extract its contents to ./photos.
 - Details about metadata files, feature specific map-making and other related information can be accesed in this [documentation](https://docs.google.com/document/d/1kyimv5nURA_BSqFuXfjx9psXw1qD34D5JZmCcUQodEw/edit?usp=sharing)
 
 # Environment Setup
@@ -45,5 +45,7 @@ conda activate automapper
 pip install -r requirements.txt
   ```
 # Contributions
-
 Feel free to contribute by improving the benchmarks.
+
+# Updates
+- We updated the repository with more data. `extra_photos.zip` from [here](https://grabautomapper.z23.web.core.windows.net/?prefix=automapper/)
