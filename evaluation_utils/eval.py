@@ -75,6 +75,9 @@ def eval_map_feature_pred(pred_df_path, uid=None, gt_df_path=None, test_mode=Fal
     
     # Store detailed metrics for test assertions
     detailed_metrics = {}
+    
+    # Store detailed issues for each tag (for issues file generation)
+    all_issues = []
 
     osm_tags = sorted(list(pred_df.columns))
     osm_tags = [tag for tag in osm_tags if tag != 'osmid']
@@ -123,6 +126,45 @@ def eval_map_feature_pred(pred_df_path, uid=None, gt_df_path=None, test_mode=Fal
         tp_count = len(tp_samples)
         fp_count = len(fp_samples)
         fn_count = len(fn_samples)
+        
+        # Store issues for this tag
+        # True Positives
+        for _, row in tp_samples.iterrows():
+            all_issues.append({
+                'osmid': row['osmid'],
+                'tag': osm_tag,
+                'issue_type': 'TP',
+                'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '',
+                'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else ''
+            })
+        
+        # False Positives (including mismatches)
+        for _, row in fp_samples.iterrows():
+            is_mismatch = (pd.notna(row[osm_tag + '_gt']) and 
+                          pd.notna(row[osm_tag + '_pred']) and 
+                          row['pred_status'] == 'fp')
+            issue_type = 'Mismatch' if is_mismatch else 'FP'
+            all_issues.append({
+                'osmid': row['osmid'],
+                'tag': osm_tag,
+                'issue_type': issue_type,
+                'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
+                'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
+            })
+        
+        # False Negatives (including mismatches, as they count as both FP and FN)
+        for _, row in fn_samples.iterrows():
+            is_mismatch = (pd.notna(row[osm_tag + '_gt']) and 
+                          pd.notna(row[osm_tag + '_pred']) and 
+                          row['pred_status'] == 'fp')
+            issue_type = 'Mismatch' if is_mismatch else 'FN'
+            all_issues.append({
+                'osmid': row['osmid'],
+                'tag': osm_tag,
+                'issue_type': issue_type,
+                'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
+                'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
+            })
 
         # Update total counts for overall metrics
         total_tp += tp_count
@@ -170,6 +212,72 @@ def eval_map_feature_pred(pred_df_path, uid=None, gt_df_path=None, test_mode=Fal
     final_metrics_df.to_markdown(pred_md, index=False)
     final_metrics_df.to_csv(pred_csv, index=False)
 
+    # Generate detailed issues file in human-readable format
+    if all_issues:
+        issues_df = pd.DataFrame(all_issues)
+        # Sort by tag, then by issue_type, then by osmid
+        issues_df = issues_df.sort_values(['tag', 'issue_type', 'osmid'])
+        
+        # Generate CSV file
+        issues_csv = os.path.join(pred_dir, f'issues_{uid}.csv')
+        issues_df.to_csv(issues_csv, index=False)
+        
+        # Generate human-readable text file
+        issues_txt = os.path.join(pred_dir, f'issues_{uid}.txt')
+        with open(issues_txt, 'w') as f:
+            # Group by tag
+            for tag in sorted(issues_df['tag'].unique()):
+                tag_issues = issues_df[issues_df['tag'] == tag]
+                
+                f.write(f"{tag.upper()}\n")
+                f.write("=" * 80 + "\n\n")
+                
+                # True Positives
+                tp_issues = tag_issues[tag_issues['issue_type'] == 'TP']
+                if len(tp_issues) > 0:
+                    f.write("True Positives:\n\n")
+                    for _, row in tp_issues.iterrows():
+                        gt_val = row['ground_truth'] if row['ground_truth'] != '' else 'None'
+                        pred_val = row['prediction'] if row['prediction'] != '' else 'None'
+                        f.write(f"  id: {row['osmid']}  gt: {gt_val}  pred: {pred_val}\n")
+                    f.write("\n")
+                
+                # False Positives (excluding mismatches, as they'll be in Mismatched section)
+                fp_issues = tag_issues[(tag_issues['issue_type'] == 'FP')]
+                if len(fp_issues) > 0:
+                    f.write("False Positives:\n\n")
+                    for _, row in fp_issues.iterrows():
+                        gt_val = row['ground_truth'] if row['ground_truth'] != '(empty)' else 'None'
+                        pred_val = row['prediction'] if row['prediction'] != '(empty)' else 'None'
+                        f.write(f"  id: {row['osmid']}  gt: {gt_val}  pred: {pred_val}\n")
+                    f.write("\n")
+                
+                # False Negatives (excluding mismatches)
+                fn_issues = tag_issues[(tag_issues['issue_type'] == 'FN')]
+                if len(fn_issues) > 0:
+                    f.write("False Negatives:\n\n")
+                    for _, row in fn_issues.iterrows():
+                        gt_val = row['ground_truth'] if row['ground_truth'] != '(empty)' else 'None'
+                        pred_val = row['prediction'] if row['prediction'] != '(empty)' else 'None'
+                        f.write(f"  id: {row['osmid']}  gt: {gt_val}  pred: {pred_val}\n")
+                    f.write("\n")
+                
+                # Mismatches (only show once, not duplicated)
+                mismatch_issues = tag_issues[tag_issues['issue_type'] == 'Mismatch']
+                # Remove duplicates (mismatches appear twice - once as FP, once as FN)
+                mismatch_issues = mismatch_issues.drop_duplicates(subset=['osmid', 'tag'])
+                if len(mismatch_issues) > 0:
+                    f.write("Mismatched:\n\n")
+                    for _, row in mismatch_issues.iterrows():
+                        gt_val = row['ground_truth'] if row['ground_truth'] != '(empty)' else 'None'
+                        pred_val = row['prediction'] if row['prediction'] != '(empty)' else 'None'
+                        f.write(f"  id: {row['osmid']}  gt: {gt_val}  pred: {pred_val}\n")
+                    f.write("\n")
+                
+                f.write("\n")
+        
+        print(f"Detailed issues saved to {pred_dir}/issues_{uid}.txt (and {pred_dir}/issues_{uid}.csv)")
+    
     print(f"Evaluation completed. Metrics saved to {pred_dir}/metrics_{uid}")
     
     # Run test assertions if in test mode
