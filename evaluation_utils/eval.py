@@ -16,13 +16,97 @@ OSM_TAGS = {'name': True,  # street name
             'maxspeed:backward': True,  # speed limit
             }
 
+def _normalize_st_abbreviation(word, position, total_words):
+    """
+    Contextually normalize "St" abbreviation:
+    - At the beginning of a name: "St" -> "saint" (e.g., "St James Place")
+    - Otherwise: "St" -> "street" (e.g., "Main St")
+    """
+    if word == 'st' and position == 0:
+        return 'saint'
+    elif word == 'st':
+        return 'street'
+    return None
+
+
 def preprocess(string):
+    """
+    Normalize street names for comparison by:
+    - Converting to lowercase
+    - Removing punctuation and question marks
+    - Normalizing common street name abbreviations
+    - Removing extra whitespace
+    """
     if pd.isna(string) or string is None:
         return ''
-    string = str(string).lower()
-    string = string.split(' ')
-    string = [s.strip().replace('.', '').replace(',', '') for s in string]
-    return ' '.join(string)
+    
+    string = str(string)
+    
+    # Convert to lowercase
+    string = string.lower()
+    
+    # Remove question marks and other uncertainty markers (common in OCR/predictions)
+    string = string.replace('?', '').replace('¿', '')
+    
+    # Normalize common street name abbreviations
+    # Dictionary mapping abbreviations to full words
+    abbreviations = {
+        'st': 'street',  # Default, but will be overridden by _normalize_st_abbreviation for contextual cases
+        'st.': 'street',
+        'str': 'street',
+        'str.': 'street',
+        'pl': 'place',
+        'pl.': 'place',
+        'ave': 'avenue',
+        'ave.': 'avenue',
+        'av': 'avenue',
+        'av.': 'avenue',
+        'rd': 'road',
+        'rd.': 'road',
+        'dr': 'drive',
+        'dr.': 'drive',
+        'ln': 'lane',
+        'ln.': 'lane',
+        'blvd': 'boulevard',
+        'blvd.': 'boulevard',
+        'ct': 'court',
+        'ct.': 'court',
+        'cir': 'circle',
+        'cir.': 'circle',
+        'pkwy': 'parkway',
+        'pkwy.': 'parkway',
+        'e': 'east',
+        'e.': 'east',
+        'w': 'west',
+        'w.': 'west',
+        'n': 'north',
+        'n.': 'north',
+        's': 'south',
+        's.': 'south',
+    }
+    
+    # Split into words and normalize
+    words = string.split()
+    normalized_words = []
+    for i, word in enumerate(words):
+        # Remove punctuation (periods, commas)
+        word = word.strip().replace('.', '').replace(',', '')
+        
+        # Handle "St" contextually first (special case)
+        st_normalized = _normalize_st_abbreviation(word, i, len(words))
+        if st_normalized is not None:
+            word = st_normalized
+        elif word in abbreviations:
+            word = abbreviations[word]
+        
+        normalized_words.append(word)
+    
+    # Join and remove extra whitespace
+    result = ' '.join(normalized_words)
+    # Remove any remaining extra spaces
+    result = ' '.join(result.split())
+    
+    return result
 
 
 def equals(gt_value, pred_value, map_feature):
