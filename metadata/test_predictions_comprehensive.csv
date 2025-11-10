@@ -1,0 +1,12 @@
+osmid,oneway,name,lanes,lanes:forward,lanes:backward,turn:lanes,turn:lanes:forward,turn:lanes:backward,maxspeed,maxspeed:forward
+1002,,Oak Avenue,,2,2,,,,,,
+1003,yes,,1,,,,,,,30 mph
+1004,,Wrong Street,,1,1,,,,,,
+1005,yes,First Street,3,,,,,,,,
+1006,,Second Street,,2,1,,,,,,
+1007,,Third Street,1,,,,,,,,
+1008,,Fourth Street,,1,1,,,,,,
+1009,yes,Fifth Street,,,,,,,,
+1010,,Sixth Street,,3,3,,,,,,
+1011,,,,,,,,,
+1013,yes,Extra Street,1,,,,,,,,
