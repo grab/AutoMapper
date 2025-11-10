@@ -108,9 +108,11 @@ def eval_map_feature_pred(pred_df_path, uid=None, gt_df_path=None, test_mode=Fal
         map_feature_gt_df['is_fp'] = map_feature_gt_df['pred_status'].isin(['fp'])
         map_feature_gt_df['is_fn'] = map_feature_gt_df['pred_status'].isin(['fn'])
         # Mismatches (wrong predictions when GT exists) count as both FP and FN
-        mismatch_mask = (map_feature_gt_df[osm_tag + '_gt'].notna() & 
-                        map_feature_gt_df[osm_tag + '_pred'].notna() &
-                        ~map_feature_gt_df.apply(lambda x: equals(x[osm_tag + '_gt'], x[osm_tag + '_pred'], osm_tag), axis=1))
+        # A mismatch is when: pred_status is 'fp' AND both GT and pred have values (notna)
+        # This means it's a wrong prediction (FP) that also missed the correct answer (FN)
+        mismatch_mask = (map_feature_gt_df['pred_status'] == 'fp') & \
+                        map_feature_gt_df[osm_tag + '_gt'].notna() & \
+                        map_feature_gt_df[osm_tag + '_pred'].notna()
         map_feature_gt_df.loc[mismatch_mask, 'is_fp'] = True
         map_feature_gt_df.loc[mismatch_mask, 'is_fn'] = True
 
