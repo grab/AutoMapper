@@ -14,6 +14,44 @@ Creating OSM-compatible mappings directly from multiple sequences of street-leve
 
 ## Evaluation
 
+### **Evaluation Rules**
+
+The evaluation follows these rules for classifying predictions. **These rules apply consistently to all OSM tags** (name, oneway, lanes, maxspeed, turn:lanes, etc.):
+
+1. **True Positive (TP)**: Both ground truth and prediction have the same non-null value
+   - Example: GT="Main Street", Pred="Main Street" → TP
+   - Example: GT="yes", Pred="yes" (for oneway) → TP
+
+2. **False Positive (FP)**:
+   - Prediction has a value but ground truth is null/empty
+   - Example: GT=empty, Pred="Extra Street" → FP
+   - **Mismatch**: Both have values but they don't match (also counts as FN)
+   - Example: GT="Elm Street", Pred="Wrong Street" → FP (and FN)
+   - Example: GT="yes", Pred=empty (for oneway) → FP (if GT expects oneway but pred is empty when it should be "yes")
+
+3. **False Negative (FN)**:
+   - Ground truth has a value but prediction is null/empty
+   - Example: GT="Park Road", Pred=empty → FN
+   - **Mismatch**: Both have values but they don't match (also counts as FP)
+   - Example: GT="Elm Street", Pred="Wrong Street" → FN (and FP)
+   - Missing OSMID: OSMID exists in ground truth but not in predictions → FN
+
+4. **True Negative (TN)**: Both ground truth and prediction are null/empty
+   - These are filtered out and not counted in metrics
+
+5. **Outer Merge**: The evaluation uses an outer merge to ensure:
+   - OSMIDs in ground truth but not in predictions are captured (FN)
+   - OSMIDs in predictions but not in ground truth are captured (FP)
+
+**Key Points:**
+- **These rules apply to ALL OSM tags**: name, oneway, lanes, lanes:forward, lanes:backward, maxspeed, turn:lanes, etc.
+- **Mismatches count as BOTH FP and FN**: A wrong prediction (e.g., GT="Elm Street", Pred="Wrong Street" or GT="yes", Pred=empty for oneway) is penalized in both precision (FP) and recall (FN)
+- **Special handling for 'name' field**: Street names are compared with preprocessing (lowercase, remove punctuation) to handle variations like "Main St." vs "Main Street"
+- **All other fields**: Direct value comparison (exact match required)
+- **Precision** = TP / (TP + FP) - measures how many predictions are correct
+- **Recall** = TP / (TP + FN) - measures how many ground truth values were found
+- **F1** = 2 × (Precision × Recall) / (Precision + Recall)
+
 ### **Evaluation Utilities**
 Tools for evaluating predictions and generating metrics:
 
@@ -22,10 +60,22 @@ Tools for evaluating predictions and generating metrics:
 
   **Usage**:  
   ```bash
-  python eval.py path/to/predictions.csv [id_suffix]
+  python eval.py path/to/predictions.csv [id_suffix] [--gt-path path/to/ground_truth.csv] [--test]
   ```
   - **`path/to/predictions.csv`**: Path to the predictions file in `.csv` format.  
   - **`id_suffix` (optional)**: A custom identifier for the evaluation. If not provided, a default identifier will be used.
+  - **`--gt-path` (optional)**: Path to ground truth CSV. Defaults to `metadata/ground_truth.csv`.
+  - **`--test` (optional)**: Enable test mode with assertions for validation.
+
+  **Output**: The script generates metrics files with the following columns:
+  - `osm_tag`: The OSM tag/attribute name
+  - `occurrences`: Number of non-null values in ground truth
+  - `tp`: True Positives count
+  - `fp`: False Positives count
+  - `fn`: False Negatives count
+  - `precision`: Precision score
+  - `recall`: Recall score
+  - `f1`: F1 score
 
 - **`interactive_eval_notebook.ipynb`**  
   Contains interactive evaluation and visualization utilities at feature level.

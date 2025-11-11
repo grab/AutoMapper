@@ -1,0 +1,13 @@
+osm_tag,occurrences,tp,fp,fn,precision,recall,f1
+lanes,6,3,1,3,0.75,0.5,0.6
+lanes:backward,5,4,1,1,0.8,0.8,0.8
+lanes:forward,5,4,1,1,0.8,0.8,0.8
+maxspeed,0,0,0,0,0.0,0.0,0.0
+maxspeed:forward,1,1,0,0,1.0,1.0,1.0
+name,11,7,2,4,0.7778,0.6364,0.7
+oneway,6,3,1,3,0.75,0.5,0.6
+turn:lanes,0,0,0,0,0.0,0.0,0.0
+turn:lanes:backward,0,0,0,0,0.0,0.0,0.0
+turn:lanes:forward,0,0,0,0,0.0,0.0,0.0
+-,-,-,-,-,-,-,-
+overall,-,22,6,12,0.7857,0.6471,0.7097

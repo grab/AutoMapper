@@ -1,0 +1,12 @@
+osmid,oneway,name,lanes,lanes:forward,lanes:backward,turn:lanes,turn:lanes:forward,turn:lanes:backward,maxspeed,maxspeed:forward
+1001,yes,Main Street,2,,,,,,,,
+1002,,Oak Avenue,,2,2,,,,,,
+1003,yes,Park Road,1,,,,,,,30 mph
+1004,,Elm Street,,1,1,,,,,,
+1005,yes,First Street,3,,,,,,,,
+1006,,Second Street,,2,1,,,,,,
+1007,yes,Third Street,1,,,,,,,,
+1008,,Fourth Street,,1,1,,,,,,
+1009,yes,Fifth Street,2,,,,,,,,
+1010,,Sixth Street,,2,2,,,,,,
+1011,yes,Missing Street,1,,,,,,,,
