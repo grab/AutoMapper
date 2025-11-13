@@ -97,5 +97,24 @@ pip install -r requirements.txt
 # Contributions
 Feel free to contribute by improving the benchmarks.
 
+# Testing the Evaluation Script
+
+To validate that the evaluation script works correctly, run the comprehensive test suite:
+
+```bash
+python eval.py ../metadata/test_predictions_comprehensive.csv test_comprehensive --gt-path ../metadata/test_ground_truth.csv --test
+```
+
+This command:
+- Evaluates predictions against a carefully designed test ground truth with 14 test cases
+- Covers all evaluation scenarios: true positives, false positives, false negatives, mismatches, missing/extra OSMIDs
+- Enables test mode (`--test` flag) which runs assertion-based validation to ensure metrics are calculated correctly
+- Verifies that mismatches count as both FP and FN (as per evaluation rules)
+- Validates outer merge functionality for handling missing osmids
+- See `metadata/TEST_CASES.md` for detailed breakdown of all test scenarios
+
+If the evaluation script is working correctly, all assertions will pass silently. Any errors indicate issues with the evaluation logic.
+
+
 # Updates
 - We updated the repository with more data. Download `extra_photos.zip` from [here](https://grabautomapper.z23.web.core.windows.net/?prefix=automapper/)
