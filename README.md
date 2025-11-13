@@ -27,7 +27,7 @@ The evaluation follows these rules for classifying predictions. **These rules ap
    - Example: GT=empty, Pred="Extra Street" → FP
    - **Mismatch**: Both have values but they don't match (also counts as FN)
    - Example: GT="Elm Street", Pred="Wrong Street" → FP (and FN)
-   - Example: GT="yes", Pred=empty (for oneway) → FP (if GT expects oneway but pred is empty when it should be "yes")
+
 
 3. **False Negative (FN)**:
    - Ground truth has a value but prediction is null/empty
