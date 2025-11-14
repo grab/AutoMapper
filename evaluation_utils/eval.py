@@ -222,30 +222,38 @@ def eval_map_feature_pred(pred_df_path, uid=None, gt_df_path=None, test_mode=Fal
                 'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else ''
             })
         
-        # False Positives (including mismatches)
-        for _, row in fp_samples.iterrows():
-            is_mismatch = (pd.notna(row[osm_tag + '_gt']) and 
-                          pd.notna(row[osm_tag + '_pred']) and 
-                          row['pred_status'] == 'fp')
-            issue_type = 'Mismatch' if is_mismatch else 'FP'
-            all_issues.append({
-                'osmid': row['osmid'],
-                'tag': osm_tag,
-                'issue_type': issue_type,
-                'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
-                'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
-            })
+        # Identify mismatches (they appear in both fp_samples and fn_samples, so we'll add them separately)
+        mismatch_samples = map_feature_gt_df[mismatch_mask]
+        mismatch_osmids = set(mismatch_samples['osmid'].values) if len(mismatch_samples) > 0 else set()
         
-        # False Negatives (including mismatches, as they count as both FP and FN)
+        # False Positives (excluding mismatches, as they'll be added separately)
+        for _, row in fp_samples.iterrows():
+            if row['osmid'] not in mismatch_osmids:
+                all_issues.append({
+                    'osmid': row['osmid'],
+                    'tag': osm_tag,
+                    'issue_type': 'FP',
+                    'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
+                    'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
+                })
+        
+        # False Negatives (excluding mismatches, as they'll be added separately)
         for _, row in fn_samples.iterrows():
-            is_mismatch = (pd.notna(row[osm_tag + '_gt']) and 
-                          pd.notna(row[osm_tag + '_pred']) and 
-                          row['pred_status'] == 'fp')
-            issue_type = 'Mismatch' if is_mismatch else 'FN'
+            if row['osmid'] not in mismatch_osmids:
+                all_issues.append({
+                    'osmid': row['osmid'],
+                    'tag': osm_tag,
+                    'issue_type': 'FN',
+                    'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
+                    'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
+                })
+        
+        # Mismatches (add once, as they count as both FP and FN in metrics but should appear once in issues)
+        for _, row in mismatch_samples.iterrows():
             all_issues.append({
                 'osmid': row['osmid'],
                 'tag': osm_tag,
-                'issue_type': issue_type,
+                'issue_type': 'Mismatch',
                 'ground_truth': row[osm_tag + '_gt'] if pd.notna(row[osm_tag + '_gt']) else '(empty)',
                 'prediction': row[osm_tag + '_pred'] if pd.notna(row[osm_tag + '_pred']) else '(empty)'
             })
